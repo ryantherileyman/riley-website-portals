@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+	"
+>
+	
+	<context:component-scan base-package="ca.rileyman" />
+	
+	<bean id="basicTestDataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
+		<property name="url" value="jdbc:mysql://localhost/test" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="username" value="basictestuser" />
+		<property name="password" value="testpass" />
+		<property name="testOnBorrow" value="true" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="maxIdle" value="5" />
+		<property name="maxActive" value="10" />
+		<property name="minIdle" value="1" />
+	</bean>
+	
+	<bean id="basicTestTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="basicTestDataSource" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="basicTestTransactionManager" />
+	
+	<bean id="basicTestJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="basicTestDataSource" />
+	</bean>
+	
+</beans>
