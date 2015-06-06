@@ -1,0 +1,75 @@
+
+Problems encountered while implementing initial blog domain & data access
+
+PROBLEM 1
+=========
+Had the component scanning set to package ca.rileyman
+
+2015-04-12 13:52:35,987 WARN    487 org.springframework.context.support.AbstractApplicationContext.refresh - Exception encountered during context initialization - cancelling refresh attempt
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'basicAutowiredDataSourceTest.TestTableDao': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private org.springframework.jdbc.core.JdbcTemplate ca.rileyman.exploretests.spring.context.BasicAutowiredDataSourceTest$TestTableDao.basicTestJdbcTemplate; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type [org.springframework.jdbc.core.JdbcTemplate] found for dependency: expected at least 1 bean which qualifies as autowire candidate for this dependency. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
+Realized that it was attempting to autowire a bean that didn't exist (the jdbcTemplate) in my XML file, because I was choosing to only have a DataSource bean.
+
+Had to change component scanning to package ca.rileyman.website
+
+
+PROBLEM 2
+=========
+Wanted to retrieve only the comments relevant for the given navigation search criteria:
+
+org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT blog_id, post_id, comment_id, comment_text, comment_date, commenter_username, active_flag FROM r3_blog_post_comment WHERE blog_id = ( SELECT blog_id FROM r3_blog WHERE blog_code = ? ) AND post_id IN ( SELECT post_id FROM r3_blog_post WHERE blog_id = ( SELECT blog_id FROM r3_blog WHERE blog_code = ? ) ORDER BY post_date DESC LIMIT ?, ? ) AND active_flag = 'Y' ORDER BY comment_date DESC ]; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: This version of MySQL doesn't yet support 'LIMIT & IN/ALL/ANY/SOME subquery'
+
+Will have to retrieve all comments from the given blog.  It just means extra comments will be loaded from the database, and discarded because they can't be attached to any blog post.
+
+
+IMAGE MAP
+=========
+
+Region is always 215 x 18 pixels
+
+RowMapperUtils.java
+60,73
+
+BlogPostDao.java
+60,109
+
+BlogDatabaseConstants.java
+60,145
+
+BlogPostCommentRowMapper.java
+60,163
+
+BlogPostRowMapper.java
+60,181
+
+BlogPostDaoImpl.java
+60,217
+
+BlogPost.java
+60,253
+
+BlogPostComment.java
+60,271
+
+BlogPostNavSearch.java
+60,307
+
+SqlFileTestUtils.java
+386,73
+
+BlogPostDaoTest.java
+386,108
+
+BlogPostDaoTestData.sql
+386,166
+
+Region is now 190 x 18 pixels
+
+create_blog_foreign_keys.sql
+443,314
+
+create_blog_tables.sql
+443,332
+
+drop_blog_tables.sql
+443,350

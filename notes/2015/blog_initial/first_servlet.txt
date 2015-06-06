@@ -1,0 +1,39 @@
+
+In Tomcat:
+Added Resource to server.xml
+Added ResourceLink to context.xml
+
+Needed to add Maven dependency spring-web.  This allows access to the WebApplicationContext boot-strapping.
+web.xml needs:
+ - listener org.springframework.web.context.ContextLoaderListener
+ - context-param contextConfigLocation
+
+Placed applicationContext.xml in WEB-INF folder, with JNDI bean.
+
+Added external JAR servlet-api.jar from Tomcat in Java Build Path -> Libraries
+The Servlet API will be available via the container, so don't want to add it as a Maven dependency.
+
+
+IMAGE MAP
+=========
+
+Region is always 215 x 18 pixels
+
+BlogPostService.java
+60,61
+
+BlogPostServiceImpl.java
+60,97
+
+InitialBlogPostListResult.java
+60,133
+
+BlogPostServlet.java
+60,169
+
+
+Region is now 190 x 18 pixels
+
+web.xml
+408,98
+

@@ -1,0 +1,47 @@
+
+Experimenting with JavaScript syntax...
+
+
+var rileyman = rileyman || { }; // Ensure a rileyman "package" is defined
+
+rileyman.FirstClass = function() {
+    var firstProperty = 1; // private member variable
+    
+    this.getFirstProperty = function() { // public function
+        return firstProperty;
+    };
+    
+    this.setFirstProperty = function(newValue) {
+        firstProperty = newValue;
+    };
+    
+    this.addToFirstProperty = function(amount) {
+        incrementFirstPropertyBy(amount);
+        return firstProperty;
+    };
+    
+    function incrementFirstPropertyBy(amount) { // private function
+        firstProperty += amount;
+    };
+};
+
+var rileyman = rileyman || { };
+
+rileyman.SecondClass = function() {
+    this.secondProperty = 2;
+};
+
+var firstObject = new rileyman.FirstClass();
+var secondObject = new rileyman.SecondClass();
+
+console.log(firstObject.firstProperty);
+console.log(firstObject.getFirstProperty());
+console.log(secondObject.secondProperty);
+
+firstObject.setFirstProperty(3);
+
+console.log(firstObject.getFirstProperty());
+console.log(secondObject.secondProperty);
+
+console.log(firstObject.addToFirstProperty(10));
+
