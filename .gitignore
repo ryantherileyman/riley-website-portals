@@ -1,0 +1,11 @@
+
+# Eclipse workspace files
+.classpath
+.project
+.settings/*
+
+# Eclipse output area
+target/*
+
+# TestNG output area
+test-output/*
